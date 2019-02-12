@@ -26,6 +26,7 @@ class NoticeUtility implements SingletonInterface
 
     /**
      * Get the notice policies
+     *
      * @return string
      */
     public function getNotice()

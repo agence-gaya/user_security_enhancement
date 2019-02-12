@@ -52,9 +52,9 @@ class LoginUtility implements SingletonInterface
     {
         $configuration = $this->configurationUtility->getConfiguration();
 
-        $waitAt = $configuration['authenticationFailureAttempts']; // Nombre de tentative à partir de laquelle le blocage commence
-        $waitTime = $configuration['authenticationFailureLock']; // Temps d'attente en minutes
-        $waitMax = $configuration['authenticationFailureMaxLock']; // Durée max possible pour un blocage
+        $waitAt = $configuration['authenticationFailureAttempts']; // Number of attempts before the user is locked
+        $waitTime = $configuration['authenticationFailureLock']; // Lock duration in minutes
+        $waitMax = $configuration['authenticationFailureMaxLock']; // Maximum lock duration
 
         if ($loginAttempt < $waitAt) {
             return 0;

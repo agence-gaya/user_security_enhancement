@@ -20,7 +20,7 @@ class FrontendSessionService implements SingletonInterface
     public function deleteUserSessions($userUid = null)
     {
         if ($userUid) {
-            // Suppression de l'ensemble des sessions de l'utilisateur correspondant à l'identifiant.
+            // Remove all user's sessions
             $res = $this->databaseConnection->exec_SELECTquery(
                 '*',
                 'fe_sessions',
@@ -28,14 +28,14 @@ class FrontendSessionService implements SingletonInterface
             );
 
             while ($rec = $this->databaseConnection->sql_fetch_assoc($res)) {
-                // Suppression des data de la session
+                // Remove session data
                 $this->deleteSessionData($rec['ses_id']);
 
-                // Suppression de la session
+                // Remove user's session
                 $this->deleteSession($rec['ses_id']);
             }
         } elseif (isset($GLOBALS['TSFE']->fe_user->user)) {
-            // Si l'utilisateur est connecté, suppression de toutes ses sessions sauf celle en cours.
+            // If the user is logged, remove all sessions exept the current one
             $res = $this->databaseConnection->exec_SELECTquery(
                 '*',
                 'fe_sessions',
@@ -43,10 +43,10 @@ class FrontendSessionService implements SingletonInterface
             );
 
             while ($rec = $this->databaseConnection->sql_fetch_assoc($res)) {
-                // Suppression des data de la session
+                // Remove session data
                 $this->deleteSessionData($rec['ses_id']);
 
-                // Suppression de la session
+                // Remove user's session
                 $this->deleteSession($rec['ses_id']);
             }
         }
@@ -60,7 +60,7 @@ class FrontendSessionService implements SingletonInterface
      */
     protected function deleteSessionData($sessionId)
     {
-        // Suppression des data de la session
+        // Remove session data
         $this->databaseConnection->exec_DELETEquery(
             'fe_session_data',
             "hash = " . $this->databaseConnection->fullQuoteStr($sessionId, 'fe_sessions')

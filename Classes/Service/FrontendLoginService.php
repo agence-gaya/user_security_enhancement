@@ -42,7 +42,7 @@ class FrontendLoginService implements SingletonInterface
             }
         }
 
-        // Mise à jour de l'utilisateur
+        // User update
         $this->databaseConnection->exec_UPDATEquery(
             'fe_users',
             'uid = ' . $this->databaseConnection->fullQuoteStr($user['uid'], 'fe_users'),
@@ -55,7 +55,7 @@ class FrontendLoginService implements SingletonInterface
 
     public function resetLoginAttemptFailure(&$user)
     {
-        // Mise à jour de l'utilisateur
+        // User update
         $this->databaseConnection->exec_UPDATEquery(
             'fe_users',
             'uid = ' . $this->databaseConnection->fullQuoteStr($user['uid'], 'fe_users'),
