@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="default" target-language="fr" datatype="plaintext" original="messages" date="2016-05-18T15:55:51Z" product-name="user_security_enhancement">
+		<header/>
+		<body>
+			<!--VALIDATOR-->
+			<trans-unit id="validator.password.notvalid">
+				<source>Password does not match security policies</source>
+				<target>Le mot de passe renseigné ne correspond pas aux règles de sécurité</target>
+			</trans-unit>
+
+			<!--HISTORY-->
+			<trans-unit id="history.password.alreadyUsed">
+				<source>You have already used this password recently</source>
+				<target>Vous avez déjà utilisé ce mot de passe récemment</target>
+			</trans-unit>
+
+			<!--NOTICE-->
+			<trans-unit id="notice.password">
+				<source>Password formatting rules:</source>
+				<target>Régles de formatage du mot de passe :</target>
+			</trans-unit>
+			<trans-unit id="notice.password.length">
+				<source>Password must be at least %d characters</source>
+				<target>Le mot de passe doit faire %d caractère(s) minimum</target>
+			</trans-unit>
+			<trans-unit id="notice.password.capitalLettersNumber">
+				<source>The password must contain at least %d capital letter(s)</source>
+				<target>Le mot de passe doit comporter %d majuscule(s) minimum</target>
+			</trans-unit>
+			<trans-unit id="notice.password.tinyLettersNumber">
+				<source>The password must contain at least %d tiny letter(s)</source>
+				<target>Le mot de passe doit comporter %d minuscule(s) minimum</target>
+			</trans-unit>
+			<trans-unit id="notice.password.specialCharactersNumber">
+				<source>The password must contain at least %d special character(s)</source>
+				<target>Le mot de passe doit comporter %d caractère(s) spéciaux minimum</target>
+			</trans-unit>
+			<trans-unit id="notice.password.digitsNumber">
+				<source>The password must contain at least %d digit(s)</source>
+				<target>Le mot de passe doit comporter %d chiffres minimum</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

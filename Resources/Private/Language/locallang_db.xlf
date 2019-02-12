@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="default" datatype="plaintext" original="messages" date="2016-05-18T15:55:51Z" product-name="user_security_enhancement">
+		<header/>
+		<body>
+			<trans-unit id="fe_users.old_password_list">
+				<source>Previous password list</source>
+			</trans-unit>
+			<trans-unit id="fe_users.lastlogin_attempt">
+				<source>Last login attempt</source>
+			</trans-unit>
+			<trans-unit id="fe_users.login_blocked_endtime">
+				<source>Login ban end time</source>
+			</trans-unit>
+			<trans-unit id="fe_users.login_attempt_failure">
+				<source>Number of login failure attemps</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

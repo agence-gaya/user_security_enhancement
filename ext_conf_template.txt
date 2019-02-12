@@ -1,0 +1,18 @@
+# cat=basic/enable; type=integer; label=Password minimum length
+passwordLength = 8
+# cat=basic/enable; type=integer; label=Minimum number of capital letters
+capitalLettersNumber = 1
+# cat=basic/enable; type=integer; label=Minimum number of tiny letters
+tinyLettersNumber = 1
+# cat=basic/enable; type=integer; label=Minimum number of special characters
+specialCharactersNumber = 1
+# cat=basic/enable; type=integer; label=Minimum number of digits
+digitsNumber = 1
+# cat=basic/enable; type=integer; label=Password history length
+passwordHistory = 5
+# cat=basic/enable; type=integer; label=Authentication failure attempts
+authenticationFailureAttempts = 5
+# cat=basic/enable; type=integer; label=Authentication failure lock time (minutes)
+authenticationFailureLock = 15
+# cat=basic/enable; type=integer; label=Authentication failure max lock time (minutes)
+authenticationFailureMaxLock = 1400
