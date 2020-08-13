@@ -1,7 +1,10 @@
 <?php
 namespace GAYA\UserSecurityEnhancement\Service;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FrontendSessionService implements SingletonInterface
 {
@@ -19,54 +22,39 @@ class FrontendSessionService implements SingletonInterface
      */
     public function deleteUserSessions($userUid = null)
     {
+        $connectionFeSessions = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_sessions');
+
         if ($userUid) {
-            // Remove all user's sessions
-            $res = $this->databaseConnection->exec_SELECTquery(
-                '*',
-                'fe_sessions',
-                'ses_userid = ' . $this->databaseConnection->fullQuoteStr($userUid, 'fe_users')
-            );
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = $connectionFeSessions->createQueryBuilder();
+            $statement = $queryBuilder
+                ->select('*')
+                ->from('fe_sessions')
+                ->where(
+                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT))
+                )
+                ->execute();
 
-            while ($rec = $this->databaseConnection->sql_fetch_assoc($res)) {
-                // Remove session data
-                $this->deleteSessionData($rec['ses_id']);
-
+            while ($rec = $statement->fetch()) {
                 // Remove user's session
                 $this->deleteSession($rec['ses_id']);
             }
         } elseif (isset($GLOBALS['TSFE']->fe_user->user)) {
-            // If the user is logged, remove all sessions exept the current one
-            $res = $this->databaseConnection->exec_SELECTquery(
-                '*',
-                'fe_sessions',
-                'ses_userid = ' . $this->databaseConnection->fullQuoteStr($GLOBALS['TSFE']->fe_user->user['uid'], 'fe_users') . ' AND ses_id != ' . $this->databaseConnection->fullQuoteStr($GLOBALS['TSFE']->fe_user->user['ses_id'], 'fe_sessions')
-            );
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = $connectionFeSessions->createQueryBuilder();
+            $statement = $queryBuilder
+                ->select('*')
+                ->from('fe_sessions')
+                ->where(
+                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($GLOBALS['TSFE']->fe_user->user['uid'], \PDO::PARAM_INT))
+                )
+                ->execute();
 
-            while ($rec = $this->databaseConnection->sql_fetch_assoc($res)) {
-                // Remove session data
-                $this->deleteSessionData($rec['ses_id']);
-
+            while ($rec = $statement->fetch()) {
                 // Remove user's session
                 $this->deleteSession($rec['ses_id']);
             }
         }
-    }
-
-    /**
-     * Delete session data of a frontend user
-     *
-     * @param $sessionId
-     * @return mixed
-     */
-    protected function deleteSessionData($sessionId)
-    {
-        // Remove session data
-        $this->databaseConnection->exec_DELETEquery(
-            'fe_session_data',
-            "hash = " . $this->databaseConnection->fullQuoteStr($sessionId, 'fe_sessions')
-        );
-
-        return $this->databaseConnection->sql_affected_rows();
     }
 
     /**
@@ -77,12 +65,14 @@ class FrontendSessionService implements SingletonInterface
      */
     protected function deleteSession($sessionId)
     {
-        $this->databaseConnection->exec_DELETEquery(
-            'fe_sessions',
-            "ses_id = " . $this->databaseConnection->fullQuoteStr($sessionId, 'fe_sessions')
-        );
-
-        return $this->databaseConnection->sql_affected_rows();
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_sessions')->createQueryBuilder();
+        return $queryBuilder
+            ->delete('fe_sessions')
+            ->where(
+                $queryBuilder->expr()->eq('ses_id', $queryBuilder->createNamedParameter($sessionId))
+            )
+            ->execute();
     }
 
 }

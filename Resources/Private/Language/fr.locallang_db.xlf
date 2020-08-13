@@ -7,10 +7,6 @@
 				<source>Previous password list</source>
 				<target>Liste de anciens mots de passe</target>
 			</trans-unit>
-			<trans-unit id="fe_users.lastlogin_attempt">
-				<source>Last login attempt</source>
-				<target>Dernière tentative de connexion</target>
-			</trans-unit>
 			<trans-unit id="fe_users.login_blocked_endtime">
 				<source>Login ban end time</source>
 				<target>Date de fin du blocage de connexion</target>

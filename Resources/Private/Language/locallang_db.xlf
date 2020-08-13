@@ -6,9 +6,6 @@
 			<trans-unit id="fe_users.old_password_list">
 				<source>Previous password list</source>
 			</trans-unit>
-			<trans-unit id="fe_users.lastlogin_attempt">
-				<source>Last login attempt</source>
-			</trans-unit>
 			<trans-unit id="fe_users.login_blocked_endtime">
 				<source>Login ban end time</source>
 			</trans-unit>

@@ -1,8 +1,11 @@
 <?php
 namespace GAYA\UserSecurityEnhancement\Utility;
 
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class PasswordUtility
@@ -11,6 +14,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PasswordUtility implements SingletonInterface
 {
+
+	/**
+	 * @var \GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository
+	 */
+	protected $frontendUserRepository;
 
     /**
      * configurationUtility
@@ -22,6 +30,9 @@ class PasswordUtility implements SingletonInterface
     public function __construct()
     {
         $this->configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
+
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->frontendUserRepository = $objectManager->get(\GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository::class);
     }
 
     /**
@@ -45,34 +56,69 @@ class PasswordUtility implements SingletonInterface
         return true;
     }
 
-    /**
-     * Vérify if password is in password history
-     *
-     * @param int $userId
-     * @param string $password
-     * @return bool
-     */
-    public function checkPasswordHistory($userId, $password)
-    {
-        $passwordHistoryNumber = $this->configurationUtility->getConfiguration('passwordHistory');
+	/**
+	 * Vérify if password is in password history
+	 * This version is compatible with the extbase version of felogin
+	 *
+	 * @param string $forgotPasswordHash
+	 * @param string $password
+	 * @return bool
+	 */
+    public function checkPasswordHistory($forgotPasswordHash, $password)
+	{
+		$passwordHistoryNumber = $this->configurationUtility->getConfiguration('passwordHistory');
+		if ($passwordHistoryNumber) {
+			$oldPasswordList = $this->frontendUserRepository->findOldPasswordListByFeloginForgotHash($forgotPasswordHash);
+			if ($oldPasswordList) {
+				$oldPasswords = GeneralUtility::trimExplode(';', $oldPasswordList);
+				$hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)
+						->getDefaultHashInstance('FE');
+				if (is_object($hashInstance)) {
+					foreach ($oldPasswords as $oldPassword) {
+						if ($hashInstance->checkPassword($password, $oldPassword)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
 
-        if ($passwordHistoryNumber) {
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('old_password_list', 'fe_users', 'uid = ' . (int)$userId, '', '', 1);
-            $user = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-            if ($user) {
-                $oldPasswords = GeneralUtility::trimExplode(';', $user['old_password_list']);
-                foreach ($oldPasswords as $oldPassword) {
-                    $objInstanceSaltedPW = \TYPO3\CMS\Saltedpasswords\Salt\SaltFactory::getSaltingInstance($oldPassword);
+		return true;
+	}
 
-                    if (is_object($objInstanceSaltedPW)) {
-                        if ($objInstanceSaltedPW->checkPassword($password, $oldPassword)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
+	/**
+	 * Returns the updated password history
+	 *
+	 * @param string $forgotPasswordHash
+	 * @param string $hashedPassword
+	 * @return string
+	 */
+	public function getUpdatedPasswordHistory($forgotPasswordHash, $hashedPassword)
+	{
+		$passwordHistory = [];
+		$table = 'fe_users';
 
-        return true;
-    }
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+		$queryBuilder = $connection->createQueryBuilder();
+		$row = $queryBuilder
+			->select('old_password_list')
+			->from($table)
+			->where(
+				$queryBuilder->expr()->eq('felogin_forgotHash', $queryBuilder->createNamedParameter($forgotPasswordHash))
+			)
+			->execute()
+			->fetch();
+
+		if (isset($row['old_password_list']) && strlen($row['old_password_list'])) {
+			$passwordHistory = GeneralUtility::trimExplode(';', $row['old_password_list']);
+		}
+		$passwordHistory[] = $hashedPassword;
+
+		/** @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility $configurationUtility */
+		$configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
+		$passwordHistoryNumber = $configurationUtility->getConfiguration('passwordHistory');
+		$passwordHistory = array_slice($passwordHistory, -$passwordHistoryNumber);
+
+		return implode(';', $passwordHistory);
+	}
 }
