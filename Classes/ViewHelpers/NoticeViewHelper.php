@@ -6,14 +6,14 @@ namespace GAYA\UserSecurityEnhancement\ViewHelpers;
  *
  * @package GAYA\UserSecurityEnhancement\ViewHelpers
  */
-class NoticeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class NoticeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
      * noticeUtility
      *
      * @var \GAYA\UserSecurityEnhancement\Utility\NoticeUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $noticeUtility = NULL;
 

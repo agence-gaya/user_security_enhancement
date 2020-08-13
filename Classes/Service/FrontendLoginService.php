@@ -1,6 +1,7 @@
 <?php
 namespace GAYA\UserSecurityEnhancement\Service;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -43,26 +44,30 @@ class FrontendLoginService implements SingletonInterface
         }
 
         // User update
-        $this->databaseConnection->exec_UPDATEquery(
-            'fe_users',
-            'uid = ' . $this->databaseConnection->fullQuoteStr($user['uid'], 'fe_users'),
-            array(
-                'login_attempt_failure' => $user['login_attempt_failure'],
-                'login_blocked_endtime' => $user['login_blocked_endtime']
-            )
-        );
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
+        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder
+			->update('fe_users')
+			->set('login_attempt_failure', $user['login_attempt_failure'])
+			->set('login_blocked_endtime', $user['login_blocked_endtime'])
+			->where(
+				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], \PDO::PARAM_INT))
+			)
+            ->execute();
     }
 
     public function resetLoginAttemptFailure(&$user)
     {
         // User update
-        $this->databaseConnection->exec_UPDATEquery(
-            'fe_users',
-            'uid = ' . $this->databaseConnection->fullQuoteStr($user['uid'], 'fe_users'),
-            array(
-                'login_attempt_failure' => 0,
-                'login_blocked_endtime' => 0
-            )
-        );
-    }
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
+		$queryBuilder = $connection->createQueryBuilder();
+		$queryBuilder
+			->update('fe_users')
+			->set('login_attempt_failure', 0)
+			->set('login_blocked_endtime', 0)
+			->where(
+				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], \PDO::PARAM_INT))
+			)
+            ->execute();
+	}
 }

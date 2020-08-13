@@ -2,14 +2,13 @@
   "name": "gaya/user-security-enhancement",
   "description": "TYPO3 extension. Define custom policies for secure frontend authentication",
   "require": {
-    "typo3/cms": ">=7.6.0,<7.6.99",
-    "typo3/cms-saltedpasswords": "*"
+    "typo3/cms-felogin": "~10.4.0"
   },
   "type": "typo3-cms-extension",
   "keywords": [
     "TYPO3 user security password policies history"
   ],
-  "homepage": "http://gitlab.gaya.fr/typo3/user_security_enhancement",
+  "homepage": "https://github.com/agence-gaya/user_security_enhancement",
   "license": "GPL-2.0+",
   "version": "1.0.0",
   "autoload": {

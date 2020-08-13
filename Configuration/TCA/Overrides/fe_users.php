@@ -9,15 +9,6 @@ $columns = array(
 			'eval' => 'trim',
 		),
 	),
-    'lastlogin_attempt' => array(
-        'exclude' => 1,
-        'label' => 'LLL:EXT:user_security_enhancement/Resources/Private/Language/locallang_db.xlf:fe_users.lastlogin_attempt',
-        'config' => array(
-            'type' => 'input',
-            'eval' => 'datetime',
-            'size' => '13',
-        ),
-    ),
     'login_blocked_endtime' => array(
         'exclude' => 1,
         'label' => 'LLL:EXT:user_security_enhancement/Resources/Private/Language/locallang_db.xlf:fe_users.login_blocked_endtime',
@@ -39,4 +30,4 @@ $columns = array(
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users', $columns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('fe_users', 'lastlogin_attempt,login_blocked_endtime,login_attempt_failure', '', 'after:endtime');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('fe_users', 'login_blocked_endtime,login_attempt_failure', '', 'after:endtime');

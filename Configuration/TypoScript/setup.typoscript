@@ -1,0 +1,24 @@
+plugin.tx_felogin_login {
+	view {
+		layoutRootPaths {
+			100 = EXT:user_security_enhancement/Resources/Private/Layouts/
+		}
+		templateRootPaths {
+			100 = EXT:user_security_enhancement/Resources/Private/Templates/
+		}
+		partialRootPaths {
+			100 = EXT:user_security_enhancement/Resources/Private/Partials/
+		}
+	}
+
+	settings {
+		passwordValidators {
+			20 >
+			20 {
+				className = GAYA\UserSecurityEnhancement\Validator\PasswordValidator
+				options {
+				}
+			}
+		}
+	}
+}
