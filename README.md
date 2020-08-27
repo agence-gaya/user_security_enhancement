@@ -2,7 +2,8 @@
 
 ## Introduction
 
-This extension enhance frontend ssecurity by defining policies.
+This extension enhance frontend security by defining policies.
+This extension is working with felogin core extension with extbase module. The pibase module is not supported anymore.
 
 ## Policies
 
@@ -47,4 +48,4 @@ Configuration :
 When a user change its password, all it's TYPO3 sessions are invalidated.
 
 ## Credits
-&copy; 2019 GAYA Manufacture digitale [http://www.gaya.fr/]
+&copy; 2020 GAYA Manufacture digitale [https://www.gaya.fr/]
