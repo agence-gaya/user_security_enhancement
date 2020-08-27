@@ -5,33 +5,25 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use PDO;
 
 class FrontendSessionService implements SingletonInterface
 {
     /**
-     * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @param int|null $userUid
      */
-    protected $databaseConnection = null;
-
-    public function __construct()
-    {
-        $this->databaseConnection = $GLOBALS['TYPO3_DB'];
-    }
-    /**
-     * @param int $userUid
-     */
-    public function deleteUserSessions($userUid = null)
+    public function deleteUserSessions(int $userUid = null): void
     {
         $connectionFeSessions = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_sessions');
 
-        if ($userUid) {
+        if ($userUid !== null) {
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = $connectionFeSessions->createQueryBuilder();
             $statement = $queryBuilder
                 ->select('*')
                 ->from('fe_sessions')
                 ->where(
-                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT))
+                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($userUid, PDO::PARAM_INT))
                 )
                 ->execute();
 
@@ -46,7 +38,7 @@ class FrontendSessionService implements SingletonInterface
                 ->select('*')
                 ->from('fe_sessions')
                 ->where(
-                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($GLOBALS['TSFE']->fe_user->user['uid'], \PDO::PARAM_INT))
+                    $queryBuilder->expr()->eq('ses_userid', $queryBuilder->createNamedParameter($GLOBALS['TSFE']->fe_user->user['uid'], PDO::PARAM_INT))
                 )
                 ->execute();
 
@@ -60,10 +52,10 @@ class FrontendSessionService implements SingletonInterface
     /**
      * Delete session of a frontend user
      *
-     * @param $sessionId
-     * @return mixed
+     * @param string $sessionId
+     * @return \Doctrine\DBAL\Driver\Statement|int
      */
-    protected function deleteSession($sessionId)
+    protected function deleteSession(string $sessionId)
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_sessions')->createQueryBuilder();

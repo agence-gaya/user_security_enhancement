@@ -13,10 +13,10 @@ class ConfigurationUtility implements SingletonInterface
     /**
      * Get extension configuration
      *
-     * @param string $key
+     * @param string|null $key
      * @return array|string
      */
-    public function getConfiguration($key = null)
+    public function getConfiguration(string $key = null)
     {
         $configuration = array(
             'passwordLength' => 8,
@@ -41,6 +41,5 @@ class ConfigurationUtility implements SingletonInterface
         } else {
             return $configuration;
         }
-
     }
 }

@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository;
 
 /**
  * Class PasswordUtility
@@ -16,23 +17,23 @@ class PasswordUtility implements SingletonInterface
 {
 
 	/**
-	 * @var \GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository
+	 * @var FrontendUserRepository
 	 */
 	protected $frontendUserRepository;
 
     /**
      * configurationUtility
      *
-     * @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility
+     * @var ConfigurationUtility
      */
     protected $configurationUtility = NULL;
 
     public function __construct()
     {
-        $this->configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
+        $this->configurationUtility = GeneralUtility::makeInstance(ConfigurationUtility::class);
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->frontendUserRepository = $objectManager->get(\GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository::class);
+        $this->frontendUserRepository = $objectManager->get(FrontendUserRepository::class);
     }
 
     /**
@@ -41,7 +42,7 @@ class PasswordUtility implements SingletonInterface
      * @param string $password
      * @return bool
      */
-    public function checkPasswordValidity($password)
+    public function checkPasswordValidity(string $password): bool
     {
         $configuration = $this->configurationUtility->getConfiguration();
 
@@ -64,7 +65,7 @@ class PasswordUtility implements SingletonInterface
 	 * @param string $password
 	 * @return bool
 	 */
-    public function checkPasswordHistory($forgotPasswordHash, $password)
+    public function checkPasswordHistory(string $forgotPasswordHash, string $password): bool
 	{
 		$passwordHistoryNumber = $this->configurationUtility->getConfiguration('passwordHistory');
 		if ($passwordHistoryNumber) {
@@ -93,7 +94,7 @@ class PasswordUtility implements SingletonInterface
 	 * @param string $hashedPassword
 	 * @return string
 	 */
-	public function getUpdatedPasswordHistory($forgotPasswordHash, $hashedPassword)
+	public function getUpdatedPasswordHistory(string $forgotPasswordHash, string $hashedPassword): string
 	{
 		$passwordHistory = [];
 		$table = 'fe_users';
@@ -114,9 +115,7 @@ class PasswordUtility implements SingletonInterface
 		}
 		$passwordHistory[] = $hashedPassword;
 
-		/** @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility $configurationUtility */
-		$configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
-		$passwordHistoryNumber = $configurationUtility->getConfiguration('passwordHistory');
+		$passwordHistoryNumber = $this->configurationUtility->getConfiguration('passwordHistory');
 		$passwordHistory = array_slice($passwordHistory, -$passwordHistoryNumber);
 
 		return implode(';', $passwordHistory);

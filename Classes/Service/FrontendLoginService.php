@@ -4,34 +4,35 @@ namespace GAYA\UserSecurityEnhancement\Service;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility;
+use GAYA\UserSecurityEnhancement\Utility\LoginUtility;
+use PDO;
 
 class FrontendLoginService implements SingletonInterface
 {
-    /**
-     * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected $databaseConnection = null;
 
     /**
      * configurationUtility
      *
-     * @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility
+     * @var ConfigurationUtility
      */
     protected $configurationUtility = NULL;
 
     /**
-     * @var \GAYA\UserSecurityEnhancement\Utility\LoginUtility
+     * @var LoginUtility
      */
     protected $loginUtility;
 
     public function __construct()
     {
-        $this->configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
-        $this->loginUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\LoginUtility::class);
-        $this->databaseConnection = $GLOBALS['TYPO3_DB'];
+        $this->configurationUtility = GeneralUtility::makeInstance(ConfigurationUtility::class);
+        $this->loginUtility = GeneralUtility::makeInstance(LoginUtility::class);
     }
 
-    public function updateLoginAttemptFailure(&$user)
+    /**
+     * @param array $user
+     */
+    public function updateLoginAttemptFailure(array &$user): void
     {
         $configuration = $this->configurationUtility->getConfiguration();
 
@@ -51,12 +52,15 @@ class FrontendLoginService implements SingletonInterface
 			->set('login_attempt_failure', $user['login_attempt_failure'])
 			->set('login_blocked_endtime', $user['login_blocked_endtime'])
 			->where(
-				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], \PDO::PARAM_INT))
+				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
 			)
             ->execute();
     }
 
-    public function resetLoginAttemptFailure(&$user)
+    /**
+     * @param array $user
+     */
+    public function resetLoginAttemptFailure(array &$user): void
     {
         // User update
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
@@ -66,7 +70,7 @@ class FrontendLoginService implements SingletonInterface
 			->set('login_attempt_failure', 0)
 			->set('login_blocked_endtime', 0)
 			->where(
-				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], \PDO::PARAM_INT))
+				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
 			)
             ->execute();
 	}
