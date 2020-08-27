@@ -27,13 +27,15 @@ class FrontendUserRepository extends \TYPO3\CMS\FrontendLogin\Domain\Repository\
 		return $column === false || $column === '' ? null : (string)$column;
 	}
 
-	/**
-	 * Change the password for a user and update his password history based on forgot password hash.
-	 *
-	 * @param string $forgotPasswordHash The hash of the feUser that should be resolved.
-	 * @param string $hashedPassword The new password.
-	 * @param string $passwordHistory The history of password used by the user
-	 */
+    /**
+     * Change the password for a user and update his password history based on forgot password hash.
+     *
+     * @param string $forgotPasswordHash
+     * @param string $hashedPassword
+     * @param string $passwordHistory
+     *
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     */
 	public function updatePasswordAndPasswordHistoryAndInvalidateHash(string $forgotPasswordHash, string $hashedPassword, string $passwordHistory)
 	{
 		$queryBuilder = $this->connection->createQueryBuilder();

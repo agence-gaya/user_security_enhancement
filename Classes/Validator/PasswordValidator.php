@@ -3,8 +3,6 @@ namespace GAYA\UserSecurityEnhancement\Validator;
 
 use GAYA\UserSecurityEnhancement\Utility\PasswordUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Error\Result;
-use TYPO3\CMS\Extbase\Validation\Error;
 
 /**
  * Class PasswordValidator
@@ -16,15 +14,6 @@ use TYPO3\CMS\Extbase\Validation\Error;
  */
 class PasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
 {
-
-	/**
-	 * passwordUtility
-	 *
-	 * @var \GAYA\UserSecurityEnhancement\Utility\PasswordUtility
-	 * @TYPO3\CMS\Extbase\Annotation\Inject
-	 */
-	protected $passwordUtility = NULL;
-
     /**
      * This validator always needs to be executed even if the given value is empty.
      * See AbstractValidator::validate()
@@ -34,10 +23,7 @@ class PasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Abstract
     protected $acceptsEmptyValues = true;
 
     /**
-     * Checks if the given property ($propertyValue) corresponds to the constraints.
-     *
-     * @param mixed $value The value that should be validated
-     * @return void
+     * @inheritDoc
      */
     public function isValid($value)
     {

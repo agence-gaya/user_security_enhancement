@@ -3,7 +3,7 @@ namespace GAYA\UserSecurityEnhancement\Utility;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class NoticeUtility
@@ -12,17 +12,16 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class NoticeUtility implements SingletonInterface
 {
-
     /**
      * configurationUtility
      *
-     * @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility
+     * @var ConfigurationUtility
      */
     protected $configurationUtility = NULL;
 
     public function __construct()
     {
-        $this->configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
+        $this->configurationUtility = GeneralUtility::makeInstance(ConfigurationUtility::class);
     }
 
     /**
@@ -30,26 +29,26 @@ class NoticeUtility implements SingletonInterface
      *
      * @return string
      */
-    public function getNotice()
+    public function getNotice(): string
     {
         $configuration = $this->configurationUtility->getConfiguration();
 
-        $text = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password', 'userSecurityEnhancement') . '<ul>';
+        $text = LocalizationUtility::translate('notice.password', 'userSecurityEnhancement') . '<ul>';
 
         if ($configuration['passwordLength']) {
-            $text .= '<li>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password.length', 'userSecurityEnhancement', array($configuration['passwordLength'])) . '</li>';
+            $text .= '<li>' . LocalizationUtility::translate('notice.password.length', 'userSecurityEnhancement', array($configuration['passwordLength'])) . '</li>';
         }
         if ($configuration['capitalLettersNumber']) {
-            $text .= '<li>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password.capitalLettersNumber', 'userSecurityEnhancement', array($configuration['capitalLettersNumber'])) . '</li>';
+            $text .= '<li>' . LocalizationUtility::translate('notice.password.capitalLettersNumber', 'userSecurityEnhancement', array($configuration['capitalLettersNumber'])) . '</li>';
         }
         if ($configuration['tinyLettersNumber']) {
-            $text .= '<li>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password.tinyLettersNumber', 'userSecurityEnhancement', array($configuration['tinyLettersNumber'])) . '</li>';
+            $text .= '<li>' . LocalizationUtility::translate('notice.password.tinyLettersNumber', 'userSecurityEnhancement', array($configuration['tinyLettersNumber'])) . '</li>';
         }
         if ($configuration['specialCharactersNumber']) {
-            $text .= '<li>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password.specialCharactersNumber', 'userSecurityEnhancement', array($configuration['specialCharactersNumber'])) . '</li>';
+            $text .= '<li>' . LocalizationUtility::translate('notice.password.specialCharactersNumber', 'userSecurityEnhancement', array($configuration['specialCharactersNumber'])) . '</li>';
         }
         if ($configuration['digitsNumber']) {
-            $text .= '<li>' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('notice.password.digitsNumber', 'userSecurityEnhancement', array($configuration['digitsNumber'])) . '</li>';
+            $text .= '<li>' . LocalizationUtility::translate('notice.password.digitsNumber', 'userSecurityEnhancement', array($configuration['digitsNumber'])) . '</li>';
         }
 
         $text .= '</ul>';

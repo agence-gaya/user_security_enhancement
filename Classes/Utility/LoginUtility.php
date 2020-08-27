@@ -15,20 +15,20 @@ class LoginUtility implements SingletonInterface
     /**
      * configurationUtility
      *
-     * @var \GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility
+     * @var ConfigurationUtility
      */
     protected $configurationUtility = NULL;
 
     public function __construct()
     {
-        $this->configurationUtility = GeneralUtility::makeInstance(\GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility::class);
+        $this->configurationUtility = GeneralUtility::makeInstance(ConfigurationUtility::class);
     }
 
     /**
-     * @param $user
+     * @param array $user
      * @return bool
      */
-    public function isUserBlocked($user)
+    public function isUserBlocked(array $user): bool
     {
         $configuration = $this->configurationUtility->getConfiguration();
 
@@ -48,7 +48,7 @@ class LoginUtility implements SingletonInterface
      * @param int $loginAttempt
      * @return float|int Blocking time in minutes
      */
-    public function getLoginBlockingTime($loginAttempt)
+    public function getLoginBlockingTime(int $loginAttempt)
     {
         $configuration = $this->configurationUtility->getConfiguration();
 

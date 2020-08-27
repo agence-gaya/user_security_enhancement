@@ -94,7 +94,7 @@ class FrontendUserSecurity implements MiddlewareInterface
     /**
      * @return array
      */
-    protected function getLoginFormData()
+    protected function getLoginFormData(): array
     {
         $loginData = [
             'status' => GeneralUtility::_GP($this->formfield_status),
@@ -108,7 +108,7 @@ class FrontendUserSecurity implements MiddlewareInterface
     /**
      * @param AbstractUserAuthentication $user
      */
-    protected function setFrontendUserAspect(AbstractUserAuthentication $user)
+    protected function setFrontendUserAspect(AbstractUserAuthentication $user): void
     {
         $context = GeneralUtility::makeInstance(Context::class);
         $context->setAspect('frontend.user', GeneralUtility::makeInstance(UserAspect::class, $user));
@@ -133,7 +133,7 @@ class FrontendUserSecurity implements MiddlewareInterface
             ->execute()
             ->fetch();
 
-            return is_array($row) ? $row : null;
+        return is_array($row) ? $row : null;
     }
 
 }
