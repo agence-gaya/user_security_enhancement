@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace GAYA\UserSecurityEnhancement\ViewHelpers;
 
 use GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility;
