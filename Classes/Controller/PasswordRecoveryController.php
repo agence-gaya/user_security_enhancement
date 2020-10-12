@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace GAYA\UserSecurityEnhancement\Controller;
 
 use GAYA\UserSecurityEnhancement\Domain\Repository\FrontendUserRepository;

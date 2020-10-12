@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace GAYA\UserSecurityEnhancement\Utility;
 
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
