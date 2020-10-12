@@ -7,6 +7,9 @@ This extension is working with felogin core extension with extbase module. The p
 
 ## Policies
 
+After installation, you will be able to configure policies in extension configuration.
+Don't forget to include TypoScript setup in your root template.
+
 ### Password complexity
 
 This policy allow to define multiple password rules :

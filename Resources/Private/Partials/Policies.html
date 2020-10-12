@@ -1,0 +1,24 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:use="http://typo3.org/ns/GAYA/UserSecurityEnhancement/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<use:configuration as="configuration">
+	<ul>
+		<f:if condition="{configuration.passwordLength}">
+			<li><f:translate key="notice.password.length" arguments="{0: configuration.passwordLength}" extensionName="userSecurityEnhancement" /></li>
+		</f:if>
+		<f:if condition="{configuration.capitalLettersNumber}">
+			<li><f:translate key="notice.password.capitalLettersNumber" arguments="{0: configuration.capitalLettersNumber}" extensionName="userSecurityEnhancement" /></li>
+		</f:if>
+		<f:if condition="{configuration.tinyLettersNumber}">
+			<li><f:translate key="notice.password.tinyLettersNumber" arguments="{0: configuration.tinyLettersNumber}" extensionName="userSecurityEnhancement" /></li>
+		</f:if>
+		<f:if condition="{configuration.specialCharactersNumber}">
+			<li><f:translate key="notice.password.specialCharactersNumber" arguments="{0: configuration.specialCharactersNumber}" extensionName="userSecurityEnhancement" /></li>
+		</f:if>
+		<f:if condition="{configuration.digitsNumber}">
+			<li><f:translate key="notice.password.digitsNumber" arguments="{0: configuration.digitsNumber}" extensionName="userSecurityEnhancement" /></li>
+		</f:if>
+	</ul>
+</use:configuration>
+</html>
