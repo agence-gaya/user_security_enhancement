@@ -15,5 +15,10 @@
     "psr-4": {
       "GAYA\\UserSecurityEnhancement\\": "Classes/"
     }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "user_security_enhancement"
+    }
   }
 }
