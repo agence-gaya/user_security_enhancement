@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/agence-gaya/user_security_enhancement",
   "license": "GPL-2.0+",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "autoload": {
     "psr-4": {
       "GAYA\\UserSecurityEnhancement\\": "Classes/"
