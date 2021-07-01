@@ -51,4 +51,4 @@ Configuration :
 When a user change its password, all it's TYPO3 sessions are invalidated.
 
 ## Credits
-&copy; 2020 GAYA Manufacture digitale [https://www.gaya.fr/]
+&copy; 2021 GAYA Manufacture digitale [https://www.gaya.fr/]
