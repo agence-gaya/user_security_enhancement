@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace GAYA\UserSecurityEnhancement\Middleware;
@@ -24,7 +25,6 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  */
 class FrontendUserSecurity implements MiddlewareInterface
 {
-
     /**
      * Login type, used for services.
      * @var string
@@ -99,7 +99,7 @@ class FrontendUserSecurity implements MiddlewareInterface
         $loginData = [
             'status' => GeneralUtility::_GP($this->formfield_status),
             'uname'  => GeneralUtility::_POST($this->formfield_uname),
-            'uident' => GeneralUtility::_POST($this->formfield_uident)
+            'uident' => GeneralUtility::_POST($this->formfield_uident),
         ];
 
         return $loginData;
@@ -135,5 +135,4 @@ class FrontendUserSecurity implements MiddlewareInterface
 
         return is_array($row) ? $row : null;
     }
-
 }

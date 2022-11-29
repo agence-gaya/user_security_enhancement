@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\ViewHelpers;
 
 use GAYA\UserSecurityEnhancement\Utility\ConfigurationUtility;
@@ -24,7 +26,7 @@ class ConfigurationViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstract
      * @var ConfigurationUtility
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $configurationUtility = NULL;
+    protected $configurationUtility = null;
 
     /**
      * Initialize arguments
@@ -46,5 +48,4 @@ class ConfigurationViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\Abstract
 
         return $content;
     }
-
 }

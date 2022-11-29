@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\Utility;
 
 use TYPO3\CMS\Core\SingletonInterface;
@@ -19,7 +21,7 @@ class ConfigurationUtility implements SingletonInterface
      */
     public function getConfiguration(string $key = null)
     {
-        $configuration = array(
+        $configuration = [
             'passwordLength' => 8,
             'capitalLettersNumber' => 1,
             'tinyLettersNumber' => 1,
@@ -28,8 +30,8 @@ class ConfigurationUtility implements SingletonInterface
             'passwordHistory' => 5,
             'authenticationFailureAttempts' => 5,
             'authenticationFailureLock' => 15,
-            'authenticationFailureMaxLock' => 1440
-        );
+            'authenticationFailureMaxLock' => 1440,
+        ];
 
         if (!empty(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('user_security_enhancement'))) {
             $configuration = array_merge($configuration, \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('user_security_enhancement'));

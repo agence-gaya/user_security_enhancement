@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -11,13 +13,12 @@ use PDO;
 
 class FrontendLoginService implements SingletonInterface
 {
-
     /**
      * configurationUtility
      *
      * @var ConfigurationUtility
      */
-    protected $configurationUtility = NULL;
+    protected $configurationUtility = null;
 
     /**
      * @var LoginUtility
@@ -49,12 +50,12 @@ class FrontendLoginService implements SingletonInterface
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder
-			->update('fe_users')
-			->set('login_attempt_failure', $user['login_attempt_failure'])
-			->set('login_blocked_endtime', $user['login_blocked_endtime'])
-			->where(
-				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
-			)
+            ->update('fe_users')
+            ->set('login_attempt_failure', $user['login_attempt_failure'])
+            ->set('login_blocked_endtime', $user['login_blocked_endtime'])
+            ->where(
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
+            )
             ->execute();
     }
 
@@ -64,15 +65,15 @@ class FrontendLoginService implements SingletonInterface
     public function resetLoginAttemptFailure(array &$user): void
     {
         // User update
-		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
-		$queryBuilder = $connection->createQueryBuilder();
-		$queryBuilder
-			->update('fe_users')
-			->set('login_attempt_failure', 0)
-			->set('login_blocked_endtime', 0)
-			->where(
-				$queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
-			)
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('fe_users');
+        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder
+            ->update('fe_users')
+            ->set('login_attempt_failure', 0)
+            ->set('login_blocked_endtime', 0)
+            ->where(
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($user['uid'], PDO::PARAM_INT))
+            )
             ->execute();
-	}
+    }
 }

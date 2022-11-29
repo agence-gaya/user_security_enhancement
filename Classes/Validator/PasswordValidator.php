@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\Validator;
 
 use GAYA\UserSecurityEnhancement\Utility\PasswordUtility;
@@ -29,12 +31,14 @@ class PasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Abstract
     public function isValid($value)
     {
         $passwordUtility = GeneralUtility::makeInstance(PasswordUtility::class);
-	    if (!$passwordUtility->checkPasswordValidity($value)) {
-		    $this->addError(
-			    $this->translateErrorMessage(
-				    'validator.password.notvalid',
-				    'userSecurityEnhancement'
-			    ), 1530798227);
-	    }
+        if (!$passwordUtility->checkPasswordValidity($value)) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'validator.password.notvalid',
+                    'userSecurityEnhancement'
+                ),
+                1530798227
+            );
+        }
     }
 }

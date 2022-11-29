@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\Utility;
 
 use TYPO3\CMS\Core\SingletonInterface;
@@ -12,13 +14,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LoginUtility implements SingletonInterface
 {
-
     /**
      * configurationUtility
      *
      * @var ConfigurationUtility
      */
-    protected $configurationUtility = NULL;
+    protected $configurationUtility = null;
 
     public function __construct()
     {
@@ -70,5 +71,4 @@ class LoginUtility implements SingletonInterface
 
         return $wait;
     }
-
 }

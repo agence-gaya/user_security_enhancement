@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace GAYA\UserSecurityEnhancement\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -67,5 +69,4 @@ class FrontendSessionService implements SingletonInterface
             )
             ->execute();
     }
-
 }
