@@ -31,8 +31,8 @@ class ConfigurationUtility implements SingletonInterface
             'authenticationFailureMaxLock' => 1440
         );
 
-        if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['user_security_enhancement'])) {
-            $configuration = array_merge($configuration, unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['user_security_enhancement']));
+        if (!empty(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('user_security_enhancement'))) {
+            $configuration = array_merge($configuration, \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('user_security_enhancement'));
 
             $configuration = array_map('intval', $configuration);
         }
