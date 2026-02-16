@@ -51,7 +51,7 @@ class PasswordUtility implements SingletonInterface
         if (!preg_match('/[a-z]{' . $configuration['tinyLettersNumber'] . ',}/', $password)
             || !preg_match('/[A-Z]{' . $configuration['capitalLettersNumber'] . ',}/', $password)
             || !preg_match('/[\W_]{' . $configuration['specialCharactersNumber'] . ',}/', $password)
-            || !preg_match('/[1-9]{' . $configuration['digitsNumber'] . ',}/', $password)
+            || !preg_match('/[0-9]{' . $configuration['digitsNumber'] . ',}/', $password)
             || strlen($password) < $configuration['passwordLength']) {
             return false;
         }
